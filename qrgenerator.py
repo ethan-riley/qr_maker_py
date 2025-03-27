@@ -141,11 +141,11 @@ def create_contact_card(
     # 3. Add Logo (if provided)
     # ------------------
     if logo_image:
-        logo_width = 180  # Increased from 120 for better visibility
+        logo_width = 70  # Increased from 120 for better visibility
         aspect_ratio = logo_image.width / logo_image.height
         logo_height = int(logo_width / aspect_ratio)
         logo_resized = logo_image.resize((logo_width, logo_height), Image.Resampling.LANCZOS)
-        logo_x, logo_y = 40, 40  # Adjusted position to be more prominent
+        logo_x, logo_y = 30, 30  # Adjusted position to be more prominent
         card.paste(logo_resized, (logo_x, logo_y), logo_resized)
 
     # ------------------
