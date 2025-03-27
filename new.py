@@ -46,13 +46,13 @@ data = pd.read_csv(csv_file)
 # Default values
 background_color = "#5046e3"
 text_color = "#FFFFFF"
-logo_image = "/Users/felipe/personal/qr_pythonv2/qpassLogo.png"
+logo_image_path = "/Users/felipe/personal/qr_pythonv2/qpassLogo.png"
 company = "Tech Sphere"
 
-# Ensure placeholder profile image exists at the correct path
-#placeholder_profile = load_image("/Users/felipe/personal/contactinfo/user.png")
-#if placeholder_profile is None:
-#    raise FileNotFoundError("Placeholder profile image 'user.png' was not found.")
+# Load the logo image
+logo_image = load_image(logo_image_path)
+if logo_image is None:
+    raise FileNotFoundError(f"Logo image was not found at {logo_image_path}")
 
 created_by = "QPass"
 
@@ -69,26 +69,15 @@ for index, row in data.iterrows():
     if pd.isna(profile_image_path):
         profile_image_path = ''
 
-    profile_image = load_image(profile_image_path)
+    # Get LinkedIn URL from CSV if available
+    linkedin_url = row.get('linkedinUrl', '')
+    if pd.isna(linkedin_url):
+        linkedin_url = ''
 
-    # Check if profile image exists
-#    if profile_image:
-#        # Crop and center profile image in a circle
-#        min_side = min(profile_image.size)
-#        left = (profile_image.width - min_side) / 2
-#        top = (profile_image.height - min_side) / 2
-#        right = (profile_image.width + min_side) / 2
-#        bottom = (profile_image.height + min_side) / 2
-#
-#        profile_image = profile_image.crop((left, top, right, bottom))
-#        profile_image = profile_image.resize((80, 80), Image.Resampling.LANCZOS)
-#    else:
-#        profile_image = placeholder_profile.resize((80, 80), Image.Resampling.LANCZOS)
+    profile_image = load_image(profile_image_path)
 
     if profile_image:
         profile_image = crop_to_face(profile_image, size=(80, 80))
-#    else:
-#        profile_image = crop_to_face(placeholder_profile, size=(80, 80))
 
     output_filename = f"{name.replace(' ', '_')}_card.png"
 
@@ -103,7 +92,7 @@ for index, row in data.iterrows():
         background_color=background_color,
         text_color=text_color,
         logo_image=logo_image,
-#        profile_image=profile_image,
+        profile_image=profile_image,
+        linkedin=linkedin_url,  # Pass LinkedIn URL to the function
         output_filename=output_filename
     )
-

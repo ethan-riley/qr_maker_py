@@ -7,7 +7,7 @@ from qrcode.image.styledpil import StyledPilImage
 import qrcode
 
 
-def generate_vcard(name, company, email, phone, title=""):
+def generate_vcard(name, company, email, phone, title="", linkedin=""):
     """
     Generate a simple vCard string from the provided contact information.
     """
@@ -20,9 +20,13 @@ def generate_vcard(name, company, email, phone, title=""):
         f"EMAIL:{email}\n"
         f"TEL:+{phone}\n"
         f"COMPANY:{company}\n"
-        "END:VCARD"
-
     )
+
+    # Add LinkedIn URL if provided
+    if linkedin:
+        vcard += f"URL;type=WORK:{linkedin}\n"
+
+    vcard += "END:VCARD"
     return vcard
 
 def create_qr_code(data, box_size=4, border=3):
@@ -109,6 +113,7 @@ def create_contact_card(
     text_color="#FFFFFF",
     logo_image="/Users/felipe/personal/qr_pythonv2/qpassLogo.png",
     profile_image=None,
+    linkedin="",
     output_filename="contact_card.png"
 ):
     """
@@ -122,7 +127,7 @@ def create_contact_card(
     # ------------------
     # 1. Create vCard & QR Code
     # ------------------
-    vcard_data = generate_vcard(name, company, email, phone, title=title)
+    vcard_data = generate_vcard(name, company, email, phone, title=title, linkedin=linkedin)
     qr_img = create_qr_code(vcard_data, box_size=4, border=3)
 
     # ------------------
@@ -136,13 +141,11 @@ def create_contact_card(
     # 3. Add Logo (if provided)
     # ------------------
     if logo_image:
-        #logo_width = 120
-        logo_image_width = 120
+        logo_width = 180  # Increased from 120 for better visibility
         aspect_ratio = logo_image.width / logo_image.height
-        logo_image_height = int(logo_image_width / aspect_ratio)
-        #logo_height = int(logo_width / aspect_ratio)
+        logo_height = int(logo_width / aspect_ratio)
         logo_resized = logo_image.resize((logo_width, logo_height), Image.Resampling.LANCZOS)
-        logo_x, logo_y = 30,30
+        logo_x, logo_y = 40, 40  # Adjusted position to be more prominent
         card.paste(logo_resized, (logo_x, logo_y), logo_resized)
 
     # ------------------
@@ -277,6 +280,7 @@ if __name__ == "__main__":
         background_color=bg_color,
         text_color=txt_color,
         logo_image=logo_image,
-        #profile_image=profile_image,
+        profile_image=profile_image,
+        linkedin=profile_path_or_url,  # Using the profile URL as LinkedIn for now in the main function
         output_filename=output_file
     )
