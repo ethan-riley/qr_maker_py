@@ -35,13 +35,16 @@ def create_qr_code(data, box_size=4, border=3):
     Returns a PIL Image object (RGBA).
     """
     qr = qrcode.QRCode(
-        version=10,
+        version=7,  # Lower version for less dense data
         error_correction=qrcode.constants.ERROR_CORRECT_H,
-        box_size=3,  # Reduced from 4 to ~2/3 size
+        box_size=4,  # Slightly larger for smoother appearance
         border=border
     )
     qr.add_data(data)
-    img_qr = qr.make_image(image_factory=StyledPilImage, module_drawer=SquareModuleDrawer())  # Changed to SquareModuleDrawer
+    img_qr = qr.make_image(
+        image_factory=StyledPilImage,
+        module_drawer=GappedSquareModuleDrawer()  # Default gap for smoother appearance
+    )
     return img_qr.convert("RGBA")
 
 def load_image(path_or_url):
