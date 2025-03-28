@@ -35,9 +35,9 @@ def create_qr_code(data, box_size=4, border=3):
     Returns a PIL Image object (RGBA).
     """
     qr = qrcode.QRCode(
-        version=5,
+        version=10,
         error_correction=qrcode.constants.ERROR_CORRECT_H,
-        box_size=8,
+        box_size=4,
         border=border
     )
     qr.add_data(data)
