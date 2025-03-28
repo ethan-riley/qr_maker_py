@@ -35,9 +35,9 @@ def create_qr_code(data, box_size=4, border=3):
     Returns a PIL Image object (RGBA).
     """
     qr = qrcode.QRCode(
-        version=7,  # Lower version for less dense data
+        version=7,
         error_correction=qrcode.constants.ERROR_CORRECT_H,
-        box_size=4,  # Slightly larger for smoother appearance
+        box_size=3,  # Reverting to preferred smaller size
         border=border
     )
     qr.add_data(data)
@@ -79,11 +79,12 @@ def load_image(path_or_url):
             print(f"File not found: {path_or_url}")
             return None
 
-def add_rounded_corners(im, radius=30):
+def add_rounded_corners(im, radius=0):
     """
-    Adds rounded corners to an image.
-    Increase/decrease radius as desired.
+    Square corners (radius=0)
     """
+    if radius <= 0:
+        return im  # Skip corner rounding entirely
     circle = Image.new('L', (radius * 2, radius * 2), 0)
     draw = ImageDraw.Draw(circle)
     draw.ellipse((0, 0, radius * 2, radius * 2), fill=255)
@@ -157,13 +158,20 @@ def create_contact_card(
     #name_font = ImageFont.load_default()
     #info_font = ImageFont.load_default()
     #created_by_font = ImageFont.load_default()
-    #company_font = ImageFont.truetype("/Users/felipe/personal/figtree/fonts/ttf/Figtree-ExtraBold.ttf", size=25)
-    company_font = ImageFont.truetype("/Users/felipe/personal/WalbaumCom-Roman.ttf", size=25)
-    title_font = ImageFont.truetype("/Users/felipe/personal/figtree/fonts/ttf/Figtree-Bold.ttf", size=14)
-    name_font = ImageFont.truetype("/Users/felipe/personal/figtree/fonts/ttf/Figtree-Bold.ttf", size=22)
-    info_font = ImageFont.truetype("/Users/felipe/personal/figtree/fonts/ttf/Figtree-Bold.ttf", size=14)
-    content_font = ImageFont.truetype("/Users/felipe/personal/figtree/fonts/ttf/Figtree-Regular.ttf", size=22)
-    created_by_font = ImageFont.truetype("/Users/felipe/personal/figtree/fonts/ttf/Figtree-Bold.ttf", size=12)
+    try:
+        company_font = ImageFont.truetype("arial.ttf", size=25)
+        title_font = ImageFont.truetype("arialbd.ttf", size=14)
+        name_font = ImageFont.truetype("arialbd.ttf", size=22)
+        info_font = ImageFont.truetype("arialbd.ttf", size=14)
+        content_font = ImageFont.truetype("arial.ttf", size=22)
+        created_by_font = ImageFont.truetype("arialbd.ttf", size=12)
+    except:
+        company_font = ImageFont.load_default(size=25)
+        title_font = ImageFont.load_default(size=14)
+        name_font = ImageFont.load_default(size=22)
+        info_font = ImageFont.load_default(size=14)
+        content_font = ImageFont.load_default(size=22)
+        created_by_font = ImageFont.load_default(size=12)
 
 
     # ------------------
