@@ -2,7 +2,7 @@ import os
 import requests
 from io import BytesIO
 from PIL import Image, ImageDraw, ImageFont, ImageOps
-from qrcode.image.styles.moduledrawers.pil import RoundedModuleDrawer, GappedSquareModuleDrawer
+from qrcode.image.styles.moduledrawers.pil import RoundedModuleDrawer, GappedSquareModuleDrawer, SquareModuleDrawer
 from qrcode.image.styledpil import StyledPilImage
 import qrcode
 
@@ -37,13 +37,11 @@ def create_qr_code(data, box_size=4, border=3):
     qr = qrcode.QRCode(
         version=10,
         error_correction=qrcode.constants.ERROR_CORRECT_H,
-        box_size=4,
+        box_size=3,  # Reduced from 4 to ~2/3 size
         border=border
     )
     qr.add_data(data)
-    #qr.make(fit=True)
-    #img_qr = qr.make_image(fill_color="black", back_color="white", image_factory=StyledPilImage, module_drawer=RoundedModuleDrawer())
-    img_qr = qr.make_image(image_factory=StyledPilImage, module_drawer=GappedSquareModuleDrawer())
+    img_qr = qr.make_image(image_factory=StyledPilImage, module_drawer=SquareModuleDrawer())  # Changed to SquareModuleDrawer
     return img_qr.convert("RGBA")
 
 def load_image(path_or_url):
