@@ -159,12 +159,12 @@ def create_contact_card(
     #info_font = ImageFont.load_default()
     #created_by_font = ImageFont.load_default()
     try:
-        company_font = ImageFont.truetype("arial.ttf", size=25)
-        title_font = ImageFont.truetype("arialbd.ttf", size=14)
-        name_font = ImageFont.truetype("arialbd.ttf", size=22)
-        info_font = ImageFont.truetype("arialbd.ttf", size=14)
-        content_font = ImageFont.truetype("arial.ttf", size=22)
-        created_by_font = ImageFont.truetype("arialbd.ttf", size=12)
+        company_font = ImageFont.truetype("/Users/felipe/personal/WalbaumCom-Roman.ttf", size=25)
+        title_font = ImageFont.truetype("/Users/felipe/personal/figtree/fonts/ttf/Figtree-Bold.ttf", size=14)
+        name_font = ImageFont.truetype("/Users/felipe/personal/figtree/fonts/ttf/Figtree-Bold.ttf", size=22)
+        info_font = ImageFont.truetype("/Users/felipe/personal/figtree/fonts/ttf/Figtree-Bold.ttf", size=14)
+        content_font = ImageFont.truetype("/Users/felipe/personal/figtree/fonts/ttf/Figtree-Regular.ttf", size=22)
+        created_by_font = ImageFont.truetype("/Users/felipe/personal/figtree/fonts/ttf/Figtree-Bold.ttf", size=12)
     except:
         company_font = ImageFont.load_default(size=25)
         title_font = ImageFont.load_default(size=14)
